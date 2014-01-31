@@ -12,7 +12,11 @@
 - (NSString *)unformattedPhoneNumber
 {
     NSCharacterSet *toExclude = [NSCharacterSet characterSetWithCharactersInString:@"/.,()-+ "];
-    return [[self componentsSeparatedByCharactersInSet:toExclude] componentsJoinedByString:@""];
+    NSMutableString *phoneNumber = [NSMutableString stringWithString:[[self componentsSeparatedByCharactersInSet:toExclude] componentsJoinedByString:@""]];
+    if ([[phoneNumber substringToIndex:1] isEqualToString:@"1"]) {
+        [phoneNumber deleteCharactersInRange:NSMakeRange(0, 1)];
+    }
+    return phoneNumber;
 }
 
 @end
