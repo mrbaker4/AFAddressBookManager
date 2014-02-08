@@ -11,12 +11,20 @@
 
 - (NSString *)unformattedPhoneNumber
 {
-    NSCharacterSet *toExclude = [NSCharacterSet characterSetWithCharactersInString:@"/.,()-+ "];
-    NSMutableString *phoneNumber = [NSMutableString stringWithString:[[self componentsSeparatedByCharactersInSet:toExclude] componentsJoinedByString:@""]];
-    if ([[phoneNumber substringToIndex:1] isEqualToString:@"1"]) {
-        [phoneNumber deleteCharactersInRange:NSMakeRange(0, 1)];
+    if (self.length > 0) {
+        NSMutableArray *components = [NSMutableArray arrayWithArray:[self componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]]];
+        NSMutableString *phoneNumber = [NSMutableString stringWithString:[components componentsJoinedByString:@""]];
+        if (phoneNumber.length > 0) {
+            if ([[phoneNumber substringToIndex:1] isEqualToString:@"1"]) {
+                [phoneNumber deleteCharactersInRange:NSMakeRange(0, 1)];
+            }
+            return phoneNumber;
+        } else {
+            return @"";
+        }
     }
-    return phoneNumber;
+
+    return @"";
 }
 
 @end
